@@ -5,4 +5,5 @@ package tr.gov.meb.ankara.ankbs.Service;
  */
 
 public enum ReturnType {
+    JSON,STRING
 }

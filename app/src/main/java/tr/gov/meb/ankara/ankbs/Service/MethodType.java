@@ -5,4 +5,6 @@ package tr.gov.meb.ankara.ankbs.Service;
  */
 
 public enum MethodType {
+    GET,POST,PUT,DELETE,PATCH
+
 }

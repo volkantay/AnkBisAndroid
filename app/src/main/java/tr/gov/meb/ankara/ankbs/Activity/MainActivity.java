@@ -2,8 +2,13 @@ package tr.gov.meb.ankara.ankbs.Activity;
 
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
+
+import java.util.List;
 
 import tr.gov.meb.ankara.ankbs.Activity.BaseActivity;
+import tr.gov.meb.ankara.ankbs.Data.User;
+import tr.gov.meb.ankara.ankbs.DataLayer.UserPersistenceManager;
 import tr.gov.meb.ankara.ankbs.Fragments.OgmListesiFragment;
 import tr.gov.meb.ankara.ankbs.Fragments.OgmDetayFragment;
 import tr.gov.meb.ankara.ankbs.Fragments.OgmEkleDuzenleFragment;
@@ -15,6 +20,9 @@ public class MainActivity extends BaseActivity
         OgmEkleDuzenleFragment.OgmEkleDuzenleFragmentListener {
 
 
+    private String TAG = getClass().getSimpleName();
+
+    private UserPersistenceManager userPersistenceManager;
     private OgmListesiFragment ogmlistesifragment;
     private static String ID= "_id";
 
@@ -28,6 +36,40 @@ public class MainActivity extends BaseActivity
             return;
         }
 
+        // manager objesini oluşturma
+        userPersistenceManager = new UserPersistenceManager(this);
+
+        // kişileri kaydetme
+
+        User u1= new User();
+        u1.set_id(4);
+        u1.setAd("volkan");
+        u1.setSoyad("tay");
+        userPersistenceManager.create(u1);
+        userPersistenceManager.create(new User(1, "Barış", "Manço"));
+        userPersistenceManager.create(new User(2, "Kemal", "Sunal"));
+        userPersistenceManager.create(new User(3, "Barış", "Akarsu"));
+
+        // kişi listesini alma
+        List<User> personList = userPersistenceManager.readAll();
+
+        // kişi listesini yazdırma
+        Log.d(TAG, "Kayıtlı kişiler:");
+        for (User person : personList) {
+            Log.d(TAG, person.toString());
+        }
+
+        // ismi Barış olan kişilerin listesini yazdırma
+        Log.d(TAG, "İsmi Barış olan kişiler:");
+        for (User person : userPersistenceManager.getUsersWithName("Barış")) {
+            Log.d(TAG, person.toString());
+        }
+
+        // kullanıcları listview'da gösterme
+       // ((ListView) findViewById(R.id.personList))
+        //        .setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, personList));
+
+
         if(findViewById(R.id.activity_container)!= null){
             //telefon
             // ogmlistesifragmentine oluşturup listeyi ona ekliyoruz.
@@ -35,6 +77,7 @@ public class MainActivity extends BaseActivity
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.activity_container,ogmlistesifragment);
             transaction.commit();
+
         }
 
     }

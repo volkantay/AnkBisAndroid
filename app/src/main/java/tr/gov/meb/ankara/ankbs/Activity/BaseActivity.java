@@ -1,32 +1,41 @@
 package tr.gov.meb.ankara.ankbs.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
+import tr.gov.meb.ankara.ankbs.Data.OgmHedefler;
+import tr.gov.meb.ankara.ankbs.Data.User;
+import tr.gov.meb.ankara.ankbs.DataLayer.OgmHedeflerPersistanceManager;
+import tr.gov.meb.ankara.ankbs.DataLayer.UserPersistenceManager;
 import tr.gov.meb.ankara.ankbs.Fragments.OgmListesiFragment;
 import tr.gov.meb.ankara.ankbs.Fragments.ProfilimFragment;
 import tr.gov.meb.ankara.ankbs.R;
 
-import static tr.gov.meb.ankara.ankbs.App.Const.ad;
-import static tr.gov.meb.ankara.ankbs.App.Const.soyad;
+import static tr.gov.meb.ankara.ankbs.App.Const.Kullanici;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private String TAG = getClass().getSimpleName();
+
+    private UserPersistenceManager userPersistenceManager;
+    private OgmHedeflerPersistanceManager ogmPersistenceManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,16 +64,60 @@ public class BaseActivity extends AppCompatActivity
 
         View hView =  navigationView.getHeaderView(0);
         TextView nav_user = (TextView)hView.findViewById(R.id.nav_name);
-        nav_user.setText(ad);
+        nav_user.setText(Kullanici.getAd());
 
         TextView nav_n = (TextView)hView.findViewById(R.id.nav_surname);
-        nav_n.setText(soyad);
+        nav_n.setText(Kullanici.getSoyad());
         // find MenuItem you want to change
 
         MenuItem nav1 = menu.findItem(R.id.nav_profilim);
         MenuItem  nav2 = menu.findItem(R.id.nav_ogmil);
 
-        Toast.makeText(this, ad+soyad, Toast.LENGTH_SHORT).show();
+
+        // manager objesini oluşturma
+        userPersistenceManager = new UserPersistenceManager(this);
+        ogmPersistenceManager = new OgmHedeflerPersistanceManager(this);
+
+        // kişileri kaydetme
+
+        User u1= new User();
+        u1.set_id(4);
+        u1.setAd("volkan");
+        u1.setSoyad("tay");
+        userPersistenceManager.create(u1);
+        userPersistenceManager.create(new User(1, "Barış", "Manço"));
+        userPersistenceManager.create(new User(2, "Kemal", "Sunal"));
+        userPersistenceManager.create(new User(3, "Barış", "Akarsu"));
+
+
+
+        ogmPersistenceManager.create(new OgmHedefler(1, "Sorun1", "Hedef1","Çalişmalar1","Sonuc1" ));
+        ogmPersistenceManager.create(new OgmHedefler(2, "Sorun2", "Hedef2","Çalişmalar2","Sonuc2" ));
+        ogmPersistenceManager.create(new OgmHedefler(3, "Sorun3", "Hedef34","Çalişmalar3","Sonuc3" ));
+        ogmPersistenceManager.create(new OgmHedefler(4, "Sorun4", "Hedef4","Çalişmalar4","Sonuc4" ));
+
+        // kişi listesini alma
+        List<User> personList = userPersistenceManager.readAll();
+        List<OgmHedefler> ogmlist = ogmPersistenceManager.readAll();
+        // kişi listesini yazdırma
+        Log.d(TAG, "Kayıtlı kişiler:");
+        for (User person : personList) {
+            Log.d(TAG, person.toString());
+        }
+
+        //OgmListesi
+
+        Log.d(TAG, "Kayıtlı Hedefler:");
+        for (OgmHedefler person : ogmlist) {
+            Log.d(TAG, ogmlist.toString());
+        }
+        // ismi Barış olan kişilerin listesini yazdırma
+        Log.d(TAG, "İsmi Barış olan kişiler:");
+        for (User person : userPersistenceManager.getUsersWithName("Barış")) {
+            Log.d(TAG, person.toString());
+        }
+
+        Toast.makeText(this, "MERHABA "+ Kullanici.getAd(), Toast.LENGTH_SHORT).show();
         // set new title to the MenuItem
        //nav1.setTitle("ad");
         //ad="tay";

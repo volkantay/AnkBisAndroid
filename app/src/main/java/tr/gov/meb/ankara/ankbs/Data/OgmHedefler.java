@@ -1,128 +1,169 @@
 package tr.gov.meb.ankara.ankbs.Data;
 
-import java.util.Date;
+
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import java.lang.reflect.Type;
 import java.util.List;
 
-/**
- * Created by Basak on 29.12.2016.
- */
+import tr.gov.meb.ankara.ankbs.DataLayer.PersistenceManager;
 
-public class OgmHedefler extends BaseClass {
 
+@DatabaseTable(tableName = "OgmHedefler")
+public class OgmHedefler extends BaseClass implements PersistenceManager.Modal {
+
+    public OgmHedefler(){}
+
+    public OgmHedefler(long id,
+                       String sorun,
+                       String hedef,
+                       String calişmalar,
+                       String sonuc){
+
+        ID=id;
+        this.sorun=sorun;
+        this.hedef =hedef;
+        this.yapilacakCalismalar =calişmalar;
+        this.sonuc =sonuc;
+
+    }
+
+
+    @DatabaseField
+    @SerializedName("ID")
+    @Expose
     private long ID;
-    private String Sorun;
-    private String Hedef;
-    private String YapilacakCalismlar;
-    private String Sonuc;
-    private Date BaslangicTarihi;
-    private Date BitisTarihi;
-    private String KurumKodu;
-    private String KurumAdi;
-
-    private List<OgmSorumluOgretmenler> SorumluOgretmenler;
-    private List<OgmSorumluYoneticiler> SorumluYoneticiler;
 
 
-    public OgmHedefler() {
-    }
+    @DatabaseField
+    @SerializedName("Sorun")
+    @Expose
+    private String sorun;
 
-    public OgmHedefler(String sorun, String hedef, String yapilacakCalismlar,
-                       String sonuc, Date baslangicTarihi, Date bitisTarihi) {
-        Sorun = sorun;
-        Hedef = hedef;
-        YapilacakCalismlar = yapilacakCalismlar;
-        Sonuc = sonuc;
-        BaslangicTarihi = baslangicTarihi;
-        BitisTarihi = bitisTarihi;
-    }
+    @DatabaseField
+    @SerializedName("Hedef")
+    @Expose
+    private String hedef;
 
-    public String getKurumKodu() {
-        return KurumKodu;
-    }
+    @DatabaseField
+    @SerializedName("YapilacakCalismalar")
+    @Expose
+    private String yapilacakCalismalar;
 
-    public void setKurumKodu(String kurumKodu) {
-        KurumKodu = kurumKodu;
-    }
-
-    public String getKurumAdi() {
-        return KurumAdi;
-    }
-
-    public void setKurumAdi(String kurumAdi) {
-        KurumAdi = kurumAdi;
-    }
-
-    public List<OgmSorumluOgretmenler> getSorumluOgretmenler() {
-        return SorumluOgretmenler;
-    }
-
-    public void setSorumluOgretmenler(List<OgmSorumluOgretmenler> sorumluOgretmenler) {
-        SorumluOgretmenler = sorumluOgretmenler;
-    }
-
-    public List<OgmSorumluYoneticiler> getSorumluYoneticiler() {
-        return SorumluYoneticiler;
-    }
-
-    public void setSorumluYoneticiler(List<OgmSorumluYoneticiler> sorumluYoneticiler) {
-        SorumluYoneticiler = sorumluYoneticiler;
-    }
+    @DatabaseField
+    @SerializedName("BaslamaTarihi")
+    @Expose
+    private String baslamaTarihi;
 
 
+    @DatabaseField
+    @SerializedName("BitisTarihi")
+    @Expose
+    private String bitisTarihi;
 
-    public long getID() {
-        return ID;
-    }
+    @DatabaseField
+    @SerializedName("Sonuc")
+    @Expose
+    private String sonuc;
+
+
+    @DatabaseField
+    @SerializedName("KurumKodu")
+    @Expose
+    private String kurumKodu;
+
+    @DatabaseField
+    @SerializedName("KurumAdi")
+    @Expose
+    private String kurumAdi;
 
     public void setID(long ID) {
         this.ID = ID;
     }
 
     public String getSorun() {
-        return Sorun;
+        return sorun;
     }
 
     public void setSorun(String sorun) {
-        Sorun = sorun;
+        this.sorun = sorun;
     }
 
     public String getHedef() {
-        return Hedef;
+        return hedef;
     }
 
     public void setHedef(String hedef) {
-        Hedef = hedef;
+        this.hedef = hedef;
     }
 
-    public String getYapilacakCalismlar() {
-        return YapilacakCalismlar;
+    public String getYapilacakCalismalar() {
+        return yapilacakCalismalar;
     }
 
-    public void setYapilacakCalismlar(String yapilacakCalismlar) {
-        YapilacakCalismlar = yapilacakCalismlar;
+    public void setYapilacakCalismalar(String yapilacakCalismalar) {
+        this.yapilacakCalismalar = yapilacakCalismalar;
+    }
+
+    public String getBaslamaTarihi() {
+        return baslamaTarihi;
+    }
+
+    public void setBaslamaTarihi(String baslamaTarihi) {
+        this.baslamaTarihi = baslamaTarihi;
+    }
+
+    public String getBitisTarihi() {
+        return bitisTarihi;
+    }
+
+    public void setBitisTarihi(String bitisTarihi) {
+        this.bitisTarihi = bitisTarihi;
     }
 
     public String getSonuc() {
-        return Sonuc;
+        return sonuc;
     }
 
     public void setSonuc(String sonuc) {
-        Sonuc = sonuc;
+        this.sonuc = sonuc;
     }
 
-    public Date getBaslangicTarihi() {
-        return BaslangicTarihi;
+    public String getKurumKodu() {
+        return kurumKodu;
     }
 
-    public void setBaslangicTarihi(Date baslangicTarihi) {
-        BaslangicTarihi = baslangicTarihi;
+    public void setKurumKodu(String kurumKodu) {
+        this.kurumKodu = kurumKodu;
     }
 
-    public Date getBitisTarihi() {
-        return BitisTarihi;
+    public String getKurumAdi() {
+        return kurumAdi;
     }
 
-    public void setBitisTarihi(Date bitisTarihi) {
-        BitisTarihi = bitisTarihi;
+    public void setKurumAdi(String kurumAdi) {
+        this.kurumAdi = kurumAdi;
+    }
+
+    public static List<OgmHedefler> getData(){
+        Gson gson = new Gson();
+        String jsonString = "[{\"id\":ID,\"Hedef\":\"hedef\"," +
+                "\"sorun\":\"sorun\"}]";
+        Type type = new TypeToken<List<OgmHedefler>>(){}.getType();
+        return gson.fromJson(jsonString, type);
+    }
+
+    @Override
+    public long getId() {
+        return ID;
+    }
+
+    public long getID() {
+        return ID;
     }
 }

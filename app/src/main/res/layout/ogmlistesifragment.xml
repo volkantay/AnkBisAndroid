@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
+
+    <include layout="@layout/content_ogm_listesi"></include>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_bos"
-        android:textColor="@color/colorAccent"
-        android:textSize="18sp"
-        android:gravity="center"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_kaydet"/>
 
-        />
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/ogmlist"></ListView>
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>
