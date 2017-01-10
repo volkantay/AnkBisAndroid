@@ -1,0 +1,99 @@
+Fragment Kullanımı
+
+1. İle Sınıfızı fragmentten extend edin ve yaratımış olduğunuz layout uoncreatview metodunda inflate edin.
+public class ArticleFragment extends Fragment {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
+        // bu fragment'in layout'unu hazır hale getirelim
+        return inflater.inflate(R.layout.article_view, container, false);
+    }
+}
+
+
+
+2. Static olarak kullanılacaksa :
+Oluşturmuş olduğunuz layoutta Fragment tagı açın ve fragmentin id sine yaratılan fragmentin id sini verin.
+
+
+ <fragment android:name="com.example.android.fragments.ArticleFragment"
+              android:id="@+id/article_fragment"
+              android:layout_weight="2"
+              android:layout_width="0dp"
+              android:layout_height="match_parent" />
+
+—————Dinamik Olarak Fragment Eklemek—————
+3. Dinamik olarak Fragment kullanmak için layout sayfasına FrameLayout ekleyin.
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+
+4.  FragmentManager sınıfı, dinamik bir kullanıcı deneyimini sağlayabilesiniz diye çalışma zamanı (runtime) sırasında bir Activity'ye Fragment ekleme, çıkarma, yer değiştirme gibi işlemleri yapmanıza olanak sağlar.
+FragmentTransaction size fragment ekleme, çıkarma, yer değiştirme ve diğer fragment işlemlerini gerçekleştirmenizi sağlayan API'ler sunar. Adı üstünde, Fragment işlemi yapmanızı sağlar.
+
+Activity'nizin Fragment'ları çıkarabilmesini ya da yer değiştirebilmesini sağlamak istiyorsanız, Activity'nin onCreate() metodu sırasında ilk olarak istediğiniz Fragment(ları) ekleyebilirsiniz.
+
+
+a.FragmentManager Oluştrulur.
+b.FragmentTransaction oluşturulur.
+c. transaction replace, add işlemi yapılır.
+
+
+
+
+public class MainActivity extends FragmentActivity {
+
+   @Override
+   public void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       setContentView(R.layout.news_articles);
+
+       // Activity'nin fragment_container isimli FrameLayout'u olan
+       // bir layout'u kullandığını doğrulayalım; o an başka bir
+       // kaynak (resource) dizinindeki içinde fragment_container
+       // olmayan başka bir layout kullanıyor olabilir
+       if (findViewById(R.id.fragment_container) != null) {
+
+       // Eğer Activity'yi önceki durumundan (state) geri
+       // dönüştürüyorsak bir şey yapmamıza gerek yok ve
+       // doğrudan return yapabiliriz. Veyahut üst üste gelen
+       //Fragment'ların icabına bakabiliriz
+           if (savedInstanceState != null) {
+               return;
+           }
+
+        // Activity layout'unun içinde yer alacak yeni bir Fragment oluşturalım
+
+        HeadlinesFragment firstFragment = new HeadlinesFragment();
+
+        // Activity'miz Intent'ten gelen özel verilerle başlatılmış
+        // olabilir. Bu nedenle (örnek olması açısından) Intent'in
+        // ekstra verilerini Fragment'a argüman olarak geçiriyoruz
+        firstFragment.setArguments(getIntent().getExtras());
+
+        //Fragment'ı ‘fragment_container' isimli FrameLayout'a ekliyoruz
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, firstFragment).commit();
+       }
+   }
+
+Değiştirme işlemleri Kodları:
+
+ArticleFragment newFragment = new ArticleFragment();
+Bundle args = new Bundle();
+args.putInt(ArticleFragment.ARG_POSITION, position);
+newFragment.setArguments(args);
+
+FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+// fragment_container layout'u içinde o anki
+// Fragment ile istediğiniz bir fragment'ı yer
+// değiştirin ve bu işlemi back stack'e de ekleyin
+// ki kullanıcı geri döndüğünde önceki Fragment'ı görebilsin
+transaction.replace(R.id.fragment_container, newFragment);
+transaction.addToBackStack(null);
+
+// yapacak bir şey kalmadı. işlemi FragmentManager'a teslim ediyoruz
+transaction.commit();

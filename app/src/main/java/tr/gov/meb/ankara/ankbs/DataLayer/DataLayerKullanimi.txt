@@ -1,0 +1,16 @@
+1 — Pizza sınıfında PersistenceManager’ı uygulamak (getId)
+class Pizza extends PersistenceManager<Pizza> {
+2 — Gerekli anotasyonları eklemek
+@DatabaseTable(tableName = “Pizzas”)
+3 — DatabaseHelper’da tabloyu oluşturmak ve güncellemek
+TableUtils.createTable(connectionSource, Pizza.class);
+TableUtils.dropTable(connectionSource, Pizza.class, true);
+4 — PizzaPersistenceManager sınıfını oluşturmak
+public class PizzaPersistenceManager extends PersistenceManager<Pizza> {
+
+Sadece bu dört adımı yaptıktan sonra Pizza objeleri oluşturup bunları veritabanına kaydedebilirsiniz.
+Ayrıca PersistenceManger sınıfına kendi metodlarınızı ekleyip bunu bütün sınıflarınız için kullanabilirsiniz.
+Örnek olarak siz de o sınıfa deleteAll metodu ekleyin. Bu metodu PersistenceManager içine eklemek bunu her sınıf
+için kullanmanıza imkan sağlayacaktır.
+Ayrıca sınıflarınıza özel veritabanı sorguları yapmak isterseniz bu sorgu metodlarını o sınıfın PersistenceManager sınıfına ekleyebilirsiniz. Örnek olarak da benim UserPersistenceManager sınıfına eklediğim ve isim üzerinde sorgu yapan getUsersWithName metoduna bakabilirsiniz. Orm-lite’ın kaynağında da örneklere buradan ulaşabilirsiniz.
+Bu esnada kullanacağınız dao objesi PersistenceManager dan miras gelen dao objesidir. Ayrıca bu obje protected olarak tanımlandığı için PersistenceManager’ı uygulayan sınıflarınızın bu sınıfla aynı pakette olması gerekmektedir.

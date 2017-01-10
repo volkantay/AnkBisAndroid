@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sorunInputLayout"
+
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Sorun/İyileştirme Alanı"
+                android:inputType="textCapWords|textImeMultiLine"
+                android:id="@+id/sorun"
+                android:imeOptions="actionNext"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/HedefInputLayout"
+
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Hedef"
+                android:inputType="textCapWords|textImeMultiLine"
+                android:id="@+id/hedef"
+                android:imeOptions="actionNext"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/CalismalarInputLayout"
+
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Yapılacak Çalışmalar"
+                android:inputType="textCapWords|textImeMultiLine"
+                android:id="@+id/calismalar"
+                android:imeOptions="actionNext"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/BaslangicTarihiInputLayout"
+
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Başlangıç Tarihi"
+                android:inputType="date"
+                android:id="@+id/baslangictarihi"
+                android:imeOptions="actionNext"/>
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/BitisTarihiInputLayout"
+
+            >
+
+            <CalendarView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bitistarihi"
+                ></CalendarView>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            >
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sorumluogretmenler"
+                >
+
+
+            </android.support.v7.widget.AppCompatSpinner>
+
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Kaydet"
+            android:gravity="center_horizontal"
+            android:drawableBottom="@drawable/custombutton"
+            android:id="@+id/btnkaydet"
+
+            android:textColor="?attr/colorAccent"
+
+            android:layout_gravity="fill_horizontal" />
+
+    </LinearLayout>
+
+</ScrollView>

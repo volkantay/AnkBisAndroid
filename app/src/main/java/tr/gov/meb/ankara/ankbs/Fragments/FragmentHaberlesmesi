@@ -1,0 +1,51 @@
+Fragment'tan Fragment'a yapılacak tüm iletişim,
+ ilişkili oldukları Activity üzerinden gerçekleşir. Activity, burada trafik polisi gibidir.
+  İki Fragment onsuz asla doğrudan iletişime geçmez.
+
+
+
+Fragment'tan mesaj göndermek için:
+1. Arayüz sınıfının tanımlanması gerekir. Buinterface onAttach işlemi ile kontrol ediyoruz.
+
+public class HeadlinesFragment extends ListFragment {
+    OnHeadlineSelectedListener mCallback;
+
+    // Taşıyıcı durumdaki Activity bu interface'i mutlaka implemente etmeli
+    public interface OnHeadlineSelectedListener {
+        public void onArticleSelected(int position);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // bununla taşıyıcı activity'nin bu callback interface'ini
+        // gerçeklediğinden emin oluruz. Etmemişse hata fırlatırız
+        try {
+            mCallback = (OnHeadlineSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " mutlaka OnHeadlineSelectedListener");
+        }
+    }
+
+    ...
+}
+
+
+
+
+2. Activity içerisinde Arayüz sınıfının gerçeklemesi:
+
+public static class MainActivity extends Activity
+        implements HeadlinesFragment.OnHeadlineSelectedListener{
+    ...
+
+    public void onArticleSelected(int position) {
+        // kullanıcı HeadLinesFragment'tan bir yazının başlığını seçer
+        // burada da yazıyı gösterecek işlemleri başlatırız
+    }
+}
+
+
+Fragment'a mesaj göndermek
